@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "HFArt Streaming"
+version = "1.0.0"
+id = "artifacts/hfart-streaming"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19853
+
+[services.development]
+run = "pnpm --filter @workspace/hfart-streaming run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hfart-streaming", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/hfart-streaming/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19853"
+BASE_PATH = "/"
